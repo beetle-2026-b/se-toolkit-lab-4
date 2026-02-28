@@ -8,6 +8,7 @@ interface Item {
   type: string
   title: string
   created_at: string
+  description: string // added field
 }
 
 function App() {
@@ -62,7 +63,7 @@ function App() {
     return (
       <form className="token-form" onSubmit={handleConnect}>
         <h1>API Token</h1>
-        <p>Enter your API token to connect.</p>
+        <p>Enter your API token to connect. It will be saved locally.</p>
         <input
           type="password"
           placeholder="Token"
@@ -94,6 +95,7 @@ function App() {
               <th>Type</th>
               <th>Title</th>
               <th>Created at</th>
+              <th>Description</th> {/* new column */}
             </tr>
           </thead>
           <tbody>
@@ -103,6 +105,7 @@ function App() {
                 <td>{item.type}</td>
                 <td>{item.title}</td>
                 <td>{item.created_at}</td>
+                <td>{item.description}</td> {/* display description */}
               </tr>
             ))}
           </tbody>
