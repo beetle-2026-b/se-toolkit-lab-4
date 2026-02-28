@@ -31,3 +31,34 @@ def test_filter_excludes_interaction_with_different_learner_id() -> None:
     assert len(result) == 2
     assert result[0].id == 1
     assert result[1].id == 2
+
+def test_filter_with_single_matching_interaction() -> None:
+    interactions = [_make_log(1, 1, 1), _make_log(2, 2, 2)]
+    result = _filter_by_item_id(interactions, 1)
+    assert len(result) == 1
+    assert result[0].id == 1
+
+def test_filter_with_multiple_matching_interactions() -> None:
+    interactions = [_make_log(1, 1, 1), _make_log(2, 2, 1), _make_log(3, 3, 2)]
+    result = _filter_by_item_id(interactions, 1)
+    assert len(result) == 2
+    assert result[0].id == 1
+    assert result[1].id == 2
+
+def test_filter_with_no_matching_interactions() -> None:
+    interactions = [_make_log(1, 1, 2), _make_log(2, 2, 3)]
+    result = _filter_by_item_id(interactions, 1)
+    assert len(result) == 0
+
+def test_filter_with_none_item_id_returns_all() -> None:
+    interactions = [_make_log(1, 1, 1), _make_log(2, 2, 2)]
+    result = _filter_by_item_id(interactions, None)
+    assert len(result) == 2
+    assert result[0].id == 1
+    assert result[1].id == 2
+
+def test_filter_with_non_integer_item_id_casts_to_int() -> None:
+    interactions = [_make_log(1, 1, 1), _make_log(2, 2, 2)]
+    result = _filter_by_item_id(interactions, "2")
+    assert len(result) == 1
+    assert result[0].id == 2
